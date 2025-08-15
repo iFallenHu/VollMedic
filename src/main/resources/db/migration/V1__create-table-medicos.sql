@@ -17,8 +17,4 @@ create table medicos (
 
 
 
-
-
-
-
 );
