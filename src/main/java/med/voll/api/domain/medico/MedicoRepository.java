@@ -11,17 +11,18 @@ import java.time.LocalDateTime;
 
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
     Page<Medico> findAllByAtivoTrue(Pageable paginacao);
+    boolean existsByIdAndAtivoTrue(Long id);
 
 
     @Query("""
             select m from Medico m
             where
-            m.ativo = 1
+            m.ativo = true
             and
             m.especialidade = :especialidade
             and
             m.id not in(
-                select .c.medico.id from Consulta c
+                select c.medico.id from Consulta c
                 where
                 c.data = :data
             
@@ -30,4 +31,13 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
             limit 1
             """)
     Medico escolherMedicoAleatorioLivreNaData(Especialidade especialidade, @NotNull @Future LocalDateTime data);
+
+    @Query("""
+            select m.ativo
+            from Medico m
+            where
+            m.id = :id
+            """)
+
+    Boolean findAtivoById(Long idMedico);
 }
