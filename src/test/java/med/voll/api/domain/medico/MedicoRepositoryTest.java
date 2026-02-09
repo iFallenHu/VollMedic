@@ -49,8 +49,13 @@ class MedicoRepositoryTest {
 
     }
 
-    private void cadastrarConsulta(Medico medico, Paciente paciente, LocalDateTime data) {
-        em.persist(new Consulta(null, medico, paciente, data));
+    private Consulta cadastrarConsulta(Medico medico, Paciente paciente, LocalDateTime data) {
+        var consulta = new Consulta(null, medico, paciente, data);
+        em.persist(consulta);
+        return consulta;
+
+
+
     }
 
     private Medico cadastrarMedico(String nome, String email, String crm, Especialidade especialidade) {
